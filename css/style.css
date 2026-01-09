@@ -16,14 +16,13 @@ html, body {
 
 a { transition: 0.2s ease; }
 
-/* HERO */
 .header {
   background: url(../images/banner.jpg) no-repeat center center;
   background-size: cover;
   min-height: 85vh;
   display: flex;
-  align-items: center;
-  text-align: center;
+  align-items: left;
+  text-align: left;
 }
 
 .header .container { padding: 5rem 1rem; }
@@ -68,7 +67,7 @@ a { transition: 0.2s ease; }
   color: #3c3c3c;
   font-size: 2rem;
   font-weight: 800;
-  text-align: center;
+  text-align: left;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   padding: 1.5rem 0;
