@@ -21,8 +21,8 @@ a { transition: 0.2s ease; }
   background-size: cover;
   min-height: 85vh;
   display: flex;
-  align-items: right;
-  text-align: right;
+  align-items: left;
+  text-align: left;
 }
 
 .header .container { padding: 5rem 1rem; }
