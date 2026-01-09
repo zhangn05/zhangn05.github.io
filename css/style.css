@@ -17,12 +17,12 @@ html, body {
 a { transition: 0.2s ease; }
 
 .header {
-  background: url(../images/banner.jpg) no-repeat center center;
+  background: url("images/head.jpeg") no-repeat center center;
   background-size: cover;
   min-height: 85vh;
   display: flex;
-  align-items: left;
-  text-align: left;
+  align-items: right;
+  text-align: right;
 }
 
 .header .container { padding: 5rem 1rem; }
