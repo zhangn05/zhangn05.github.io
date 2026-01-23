@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Digital Logic x Metaphysics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Digital Logic x Metaphysics" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet">
+</head>
+<body>
+	<nav class="floating-nav">
+		<a href="#adder">Adder</a>
+		<a href="#subtractor">Subtractor</a>
+		<a href="#reflection">Reflection</a>
+	  </nav>
+<main class="stack">
+    <section class="panel panel-full is-visible" id="adder">
+
+        <div class="panel-content">
+            <h1>Digital Logic x Metaphysics</h1>
+            <h3>This page shows my 2-bit addition and subtraction circuits and reflects on how our various readings
+                and discussions shaped my thinking about what computers are.
+            </h3>
+                <div class="cards" style="margin-top: 2rem;">
+                    <article class="card">
+                        <h2>2-Bit Addition Circuit (Block Diagram)</h2>
+                        <p>
+                        <img
+                            src="images/2-bit_adder.png"
+                            alt="Block diagram of a 2-bit binary adder built from two full adders. The carry-out from the first bit feeds the carry-in of the second bit, producing up to a 3-bit sum output."
+                            style="width: 100%; height: auto; border-radius: 12px; border: 1px solid #e5e7eb;"
+                        >
+                        </p>
+                        <h3>Design justification</h3>
+                        <p>
+                        I implemented 2-bit addition by chaining two full adders: one for the first sum bit and one for the second and third sum bit. 
+                        The first full adder takes the first bits from the two inputs X and Y, which are called X0 and Y0, respectively.
+                        It also takes an input carry-in bit, which is always zero. If X0 and Y0 are both 1, the first sum bit becomes 0 and the carry-out is a 1.
+                        This is done through a series of XOR gates for the sum bit and a separate AND gate for the carry-out bit.
+                        I used the carry-out bit from the first full adder as the carry-in for the second full adder. This mirrors our process of
+                        carrying the 1 if addition of a digit exceeds 10 in decimal. The second full adder performs the same operations as the 
+                        first full adder but on X1 and Y1 (the second bits of X and Y) and the carry-in bit. If any two of the three inputs are 1, the carry-out is 1
+                        </p>
+                        <h3>Example with inputs X = 01, Y = 10 (Full Circuit): </h3>
+                        <img
+                            src="images/trace_adder1.png"
+                            alt="Image shows how the 2-bit adder works with inputs X = 01, Y = 10 and shows full adder circuitry for more detailed analysis"
+                            style="width: 100%; height: auto; border-radius: 12px; border: 1px solid #e5e7eb;"
+                        >
+                        <p>
+                            In this example we can see what the 2-bit Adder does with the inputs X = 01, Y = 10. First, the result of X0 XOR Y0 is 1, so the first sum bit is 1.
+                            There is no carry out from the first full adder, so we only need to look at X1 XOR Y1, which is also 1. As a result, we get 1 for the second sum bit 
+                            and an overall sum of 011.
+                        </p>
+                    </article>
+                </div>
+  
+
+                <div class="cards" style="margin-top: 2rem;">
+                    <article class="card" id="subtractor">
+                        <h2>2-Bit Subtraction Circuit (Block Diagram)</h2>
+                        <p>
+                        <img
+                            src="images/2-bit_sub.png"
+                            alt="Block diagram of a 2-bit binary subtractor built from two full subtractors. The borrow-out from the first bit feeds the borrow-in of the second bit, producing up to a 2-bit difference output."
+                            style="width: 100%; height: auto; border-radius: 12px; border: 1px solid #e5e7eb;"
+                        >
+                        </p>
+                        <h3>Design justification</h3>
+                        <p>
+                        Similar to the full adder, I implemented 2-bit subtraction by chaining two full subtractors: one for the first difference bit and one for the second bit. 
+                        The first full subtractor takes the first bits from the two inputs X and Y, which are called X0 and Y0, respectively. X is the minuend, the number being subtracted from 
+                        and Y is the subtrahend, the number being subtracted from the minuend.
+                        The first full subtractor also takes an input borrow-in bit, which is always zero. If X0 is 0, and Y0 is 1, the first bit becomes 1 and borrow-out is 1.
+                        This is done using XOR gates for the D0 bit and an AND gate for the borrow-out bit. The AND gate checks if NOT X0 is 1 (meaning X0 is 0) and Y0 is 1. 
+                        I used the borrow-out bit from the first full subtractor as the borrow-in for the second full subtractor. 
+                        The second full subtractor performs the same operations as the
+                        first full subtractor but on X1 and Y1 (the second bits of X and Y) and the borrow-in bit. Now the borrow-in bit is important to consider. If X1 is 1, if either Y1 or borrow-in is 1, 
+                        D1 is 0. If X1 is 1, and neither Y1 nor borrow-in is 1, D0 is 1. This 2-bit subtractor only works for nonnegative differences, so if for any reason X1 is less than the sum of Y1 and borrow-in,
+                        the answer is inaccurate.
+                        </p>
+                        <h3>Example with inputs X = 10, Y = 01 (Full Circuit): </h3>
+                        <img
+                            src="images/trace_sub1.png"
+                            alt="Image shows how the 2-bit subtractor works with inputs X = 10, Y = 01 and shows full adder circuitry for more detailed analysis"
+                            style="width: 100%; height: auto; border-radius: 12px; border: 1px solid #e5e7eb;"
+                        >
+                        <p>
+                            In this example we can see what the 2-bit subtractor does with the inputs X = 10, Y = 01. First, the result of X0 XOR Y0 is 1, so the first difference bit is 1.
+                            Due to X0 being less than Y0, the borrow-out bit is 1 for the first full subtractor, so we must use that as the borrow-in for the second full subtractor. First, we perform X1 XOR Y1, 
+                            which is 1. However, we must perform the XOR of the resulting 1 with the borrow-in bit, which evaluates to 0.
+                            Thus we get an overall difference of 01.
+                        </p>
+                    </article>
+                </div>
+    
+                <div class="cards" style="margin-top: 2rem;">
+                    <article class="card" id="reflection">
+                        <h2>Reflections on the Nature of Computers</h2>
+
+                        <p>
+                            The term "computer" is used colloquially to refer to an electronic device that often takes the shape of a laptop or something similar. 
+                            However, a more specific and concrete definition seems to elude our consensus. Most of us would agree that smartphones and even calculators 
+                            are also computers despite not being the first image that comes to our minds when we hear the word "computer". But what is the minimum performance
+                            necessary to be considered a computer? Can theoretical concepts be computers or must there be a physical element? How much human interference is 
+                            acceptable? Can biological systems like those of animals processing sensory inputs also be considered computers? In our class, The Why of Everyday Technologies,
+                            we discussed all of these questions and more. 
+                        </p>
+                        <p>
+                            Below are some of my thoughts after discussions and readings:
+                        </p>
+                        <h3>
+                            Does a computer need to be physical?
+                        </h3>   
+                        <p>
+                            In Dewdney, 1988 (Computer from 850 CE), we saw that early peoples were able to construct something similar to computers that we have today
+                            implementing much of the corresponding modern hardware we have today. While nothing about the article explicitly suggests that computers cannot be theoretical in nature,
+                            but it seems that people naturally consider the physical mechanism to be the computer rather than the blueprint or schematics of the physical mechanism.
+                            Based on this, and my own experiences, I would say that a computer most likely has some physical aspect to it. I tend to be of the opinion that computers should, to a certain 
+                            extent, automatic in their computations. For that reason, I would say that a theoretical representation of a computer, like a Turing machine, isn't a computer, as it doesn't provide
+                            an answer on input. Theoretically it does, but practically, the human still has to trace the machine step by step to arrive at an answer. I'd say that a computer must at least carry out 
+                            a number of steps automatically. We also discussed in class if a broken or dead computer is still a computer. At first, my thinking was semantic in nature: a broken computer is still 
+                            referred to as a computer, therefore it must be a computer. However, Adit presented his thoughts that the computer that is dead is very close to being a computer, but in that physical state 
+                            without electricity, it cannot perform any computations. Thus, it is not a computer despite being close to one. After hearing this, I was inclined to agree. The computer in that state is unable
+                            to compute, and is no more useful than a Turing machine. However, Hudson believed that the hardware in the computer is still capable of processing inputs and outputs, and that electricity can't be
+                            what makes a computer a computer. This again challenged my beliefs and I thought back to class when the majority of us considered drawings of logic gates computers. In that case, if a computer made up
+                            of thousands of such operators is broken, are the remaining intact isolated circuits computers of their own? I'm still not sure about the answer to this question. Hudson also mentioned that providing
+                            electricity can be considered a human input, and all modern computers need some input from humans. At what point do we draw the line and say it's too much human interference to be considered a computer?
+                            Joe brought up that a choose-your-own adventure book can be considered a computer with a lot of human interference if we went that far. Again, I don't know if there is a correct answer to this problem.
+                        </p>
+                        <h3>
+                            Can biological systems be considered computers?
+                        </h3>  
+                        <p>
+                            In Gunji et al., 2011 (A Computer Made of Crabs), we saw that researchers were able to use the swarming of crabs to model surprisingly complex logical operations.
+                            Based on this reading, I felt that biological systems can be harnessed by humans to "compute" outputs from inputs. However, this raised the in-class discussion 
+                            question: does a computer need human interference? In the crab system, humans were the ones creating the rules and assigning inputs and outputs. I'm not sure that 
+                            there was any inherent computing by the crabs swarming without humans "making use" of the crabs. Based on this, my opinion would be yes, computers by our understanding
+                            must operate under some principles that only humans are able to make sense of in utilize. However, perhaps other systems may use similar methods of computing, albeit more simply.
+                            This raised the question: does computing exist without humans? My first instinct was that the term "computing" is a human construction, and therefore other systems wouldn't be computing
+                            if humans did not exist. My thinking was rather philosophical in nature, and perhaps there is no answer to whether or not that kind of thinking is correct. Hudson did note that 
+                            some monkeys have been observed to be able to split bananas equally. This led me to think about the issue more practically. The monkeys were able to compute the inputs of the bananas
+                            and output equal splits of the bananas. In that case, most of us would consider that to be computing. Does that make the monkeys computers? I'd say that if we consider human minds to be
+                            computers, then the minds of the monkeys can also be considered computers. But maybe we do want to question if our minds can be considered computers. Some people might say there is an element
+                            of human creation in what constitutes a computer.
+                        </p>
+                        <h3>
+                            References   
+                        </h3> 
+                        <p>
+                            Dewdney, A. K. (1988). Computer recreations: An ancient rope-and-pulley computer is unearthed in the jungle of Apraphul.  <em>Scientific American, 259</em>(1), 118–121.
+                        </p>
+                        <p>
+                            Gunji, Y.-P., Nishiyama, Y., & Adamatzky, A. (2011). Robust soldier crab ball gate. <em>Complex Systems</em>, 20, 93–104.
+                        </p>
+                    </article>
+                </div>
+            </div>
+            </section>
+  
+  </main>
